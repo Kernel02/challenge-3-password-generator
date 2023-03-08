@@ -10,7 +10,7 @@ function writePassword() {
 }
 
 function generatePassword() {
-  var password = [];
+  var password = []; //After selecting character types, characters will be pushed to this array
   var characters = {
     numeric: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     lowercase: [
@@ -72,6 +72,7 @@ function generatePassword() {
     specialCharacters: ["!", "?", "@", "#", "$", "%", "&"],
   };
   function getRandomItem(x) {
+    //Used to select random items from arrays
     var randomIndex = Math.floor(Math.random() * x.length);
     var item = x[randomIndex];
     return item;
@@ -84,9 +85,10 @@ function generatePassword() {
     alert(
       "Please give a numerical value of at least 8 and no greater than 128."
     );
-    return;
+    return; //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
   }
   var haveNumeric = confirm(
+    //This section sends confirms to let the user select all of the characters they want to make up their password
     "Select OK if you want your password to contain numeric characters."
   );
   var haveUppercase = confirm(
@@ -99,15 +101,17 @@ function generatePassword() {
     "Select OK if you want your password to contain special characters."
   );
   if (
+    //This if statement will detect if the user failed to select any character types at all
     !haveLowercase &&
     !haveUppercase &&
     !haveNumeric &&
     !haveSpecialCharacters
   ) {
-    alert("You must select at least one character type.");
+    alert("You must select at least one character type."); //If they didn't select any character types, then an alert will be sent to them and the return will force an exit from the generate password function
     return;
   }
   if (haveNumeric && haveLowercase && haveUppercase && haveSpecialCharacters) {
+    //This if statement runs through all of the possible combination of character types, concats the character type arrays together, then selects and pushes random items into the passwoord array until it meets the password length given by the user. The password array is then returned with join(""), leaving no space between the items when printed
     var allCharacters = characters.lowercase.concat(
       characters.uppercase,
       characters.numeric,
