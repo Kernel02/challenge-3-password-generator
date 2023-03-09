@@ -85,7 +85,7 @@ function generatePassword() {
     alert(
       "Please give a numerical value of at least 8 and no greater than 128."
     );
-    return; //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
+    return "Please Try Again"; //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
   }
   var haveNumeric = confirm(
     //This section sends confirms to let the user select all of the characters they want to make up their password
@@ -108,7 +108,7 @@ function generatePassword() {
     !haveSpecialCharacters
   ) {
     alert("You must select at least one character type."); //If they didn't select any character types, then an alert will be sent to them and the return will force an exit from the generate password function
-    return;
+    return "Please Try Again";
   }
   if (haveNumeric && haveLowercase && haveUppercase && haveSpecialCharacters) {
     //This if statement runs through all of the possible combination of character types, concats the character type arrays together, then selects and pushes random items into the passwoord array until it meets the password length given by the user. The password array is then returned with join(""), leaving no space between the items when printed
