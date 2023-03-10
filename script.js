@@ -16,8 +16,15 @@ function generatePassword() {
       getRandomItem(allCharacters);
       result = getRandomItem(allCharacters);
       password.push(result);
-    }
-  }
+    };
+  };
+  function createPasswordSingleType(x) { //This function takes the single character type and pushes random items into the empty password array
+    for (var i = 0; i < pwLength; i++) {
+      getRandomItem(x);
+      result = getRandomItem(x);
+      password.push(result);
+    };
+  };
   var password = []; //After selecting character types, characters will be pushed to this blank array
   var characters = {
     numeric: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -30,7 +37,7 @@ function generatePassword() {
     var randomIndex = Math.floor(Math.random() * x.length);
     var item = x[randomIndex];
     return item;
-  }
+  };
   var pwLength = prompt(
     "How many characters long do you want your password to be?"
   );
@@ -40,7 +47,7 @@ function generatePassword() {
       "Please give a numerical value of at least 8 and no greater than 128."
     );
     return "Please Try Again"; //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
-  }
+  };
   var haveNumeric = confirm(
     //This section sends confirms to let the user select all of the characters they want to make up their password
     "Select OK if you want your password to contain numeric characters."
@@ -130,16 +137,16 @@ function generatePassword() {
     createPassword();
     return password.join("");
   } else if (haveLowercase) {
-    createPassword();
+    createPasswordSingleType(characters.lowercase);
     return password.join("");
   } else if (haveUppercase) {
-    createPassword();
+    createPasswordSingleType(characters.uppercase);
     return password.join("");
   } else if (haveNumeric) {
-    createPassword();
+    createPasswordSingleType(characters.numeric);
     return password.join("");
   } else {
-    createPassword();
+    createPasswordSingleType(characters.specialCharacters);
     return password.join("");
   }
 }
