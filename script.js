@@ -9,6 +9,13 @@ function writePassword() {
   passwordText.value = password;
 }
 
+function throwTryAgain(message) {
+  alert(
+    message
+  );
+  return "Please Try Again"; //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
+}
+ 
 function generatePassword() {
   function createPassword() {
     //This function takes the concatenated array and selects a random item to then push into the empty array
@@ -18,19 +25,12 @@ function generatePassword() {
       password.push(result);
     };
   };
-  function createPasswordSingleType(x) { //This function takes the single character type and pushes random items into the empty password array
-    for (var i = 0; i < pwLength; i++) {
-      getRandomItem(x);
-      result = getRandomItem(x);
-      password.push(result);
-    };
-  };
   var password = []; //After selecting character types, characters will be pushed to this blank array
   var characters = {
     numeric: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     lowercase: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
     uppercase: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
-    specialCharacters: ["!", "?", "@", "#", "$", "%", "&"]
+    specialCharacters: ["!", "?", "@", "#", "$", "%", "&", "*", "<", ">", "(", ")", "+", "-", "_", "="]
   };
   function getRandomItem(x) {
     //Used to select random items from arrays
@@ -38,15 +38,11 @@ function generatePassword() {
     var item = x[randomIndex];
     return item;
   };
-  var pwLength = prompt(
+  var pwLength = parseInt(prompt(
     "How many characters long do you want your password to be?"
-  );
-  if (pwLength > 7 && pwLength < 129) {
-  } else {
-    alert(
-      "Please give a numerical value of at least 8 and no greater than 128."
-    );
-    return "Please Try Again"; //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
+  ));
+  if (pwLength < 8 || pwLength > 128 || isNaN(pwLength)) {
+    return throwTryAgain("Please give a numerical value of at least 8 and no greater than 128."); //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
   };
   var haveNumeric = confirm(
     //This section sends confirms to let the user select all of the characters they want to make up their password
@@ -61,6 +57,8 @@ function generatePassword() {
   var haveSpecialCharacters = confirm(
     "Select OK if you want your password to contain special characters."
   );
+var allCharacters = []
+
   if (
     //This if statement will detect if the user failed to select any character types at all
     !haveLowercase &&
@@ -68,87 +66,22 @@ function generatePassword() {
     !haveNumeric &&
     !haveSpecialCharacters
   ) {
-    alert("You must select at least one character type."); //If the user didn't select any character types, then an alert will be sent to them and the return will force an exit from the generate password function
-    return "Please Try Again";
+    return throwTryAgain("You must select at least one character type.")
   }
-  if (haveNumeric && haveLowercase && haveUppercase && haveSpecialCharacters) {
-    //This if statement runs through all of the possible combination of character types, concats the character type arrays together, then selects and pushes random items into the passwoord array until it meets the password length given by the user. The password array is then returned with join(""), leaving no space between the items when printed
-    var allCharacters = characters.lowercase.concat(
-      characters.uppercase,
-      characters.numeric,
-      characters.specialCharacters
-    );
-    createPassword();
-    return password.join("");
-  } else if (haveNumeric && haveLowercase && haveUppercase) {
-    var allCharacters = characters.lowercase.concat(
-      characters.uppercase,
-      characters.numeric
-    );
-    createPassword();
-    return password.join("");
-  } else if (haveLowercase && haveUppercase && haveSpecialCharacters) {
-    var allCharacters = characters.lowercase.concat(
-      characters.uppercase,
-      characters.specialCharacters
-    );
-    createPassword();
-    return password.join("");
-  } else if (haveUppercase && haveSpecialCharacters && haveNumeric) {
-    var allCharacters = characters.uppercase.concat(
-      characters.numeric,
-      characters.specialCharacters
-    );
-    createPassword();
-    return password.join("");
-  } else if (haveNumeric && haveLowercase && haveSpecialCharacters) {
-    var allCharacters = characters.lowercase.concat(
-      characters.numeric,
-      characters.specialCharacters
-    );
-    createPassword();
-    return password.join("");
-  } else if (haveLowercase && haveUppercase) {
-    var allCharacters = characters.lowercase.concat(characters.uppercase);
-    createPassword();
-    return password.join("");
-  } else if (haveLowercase && haveNumeric) {
-    var allCharacters = characters.lowercase.concat(characters.numeric);
-    createPassword();
-    return password.join("");
-  } else if (haveLowercase && haveSpecialCharacters) {
-    var allCharacters = characters.lowercase.concat(
-      characters.specialCharacters
-    );
-    createPassword();
-    return password.join("");
-  } else if (haveUppercase && haveNumeric) {
-    var allCharacters = characters.uppercase.concat(characters.numeric);
-    createPassword();
-    return password.join("");
-  } else if (haveUppercase && haveSpecialCharacters) {
-    var allCharacters = characters.uppercase.concat(
-      characters.specialCharacters
-    );
-    createPassword();
-    return password.join("");
-  } else if (haveNumeric && haveSpecialCharacters) {
-    var allCharacters = characters.numeric.concat(characters.specialCharacters);
-    createPassword();
-    return password.join("");
-  } else if (haveLowercase) {
-    createPasswordSingleType(characters.lowercase);
-    return password.join("");
-  } else if (haveUppercase) {
-    createPasswordSingleType(characters.uppercase);
-    return password.join("");
-  } else if (haveNumeric) {
-    createPasswordSingleType(characters.numeric);
-    return password.join("");
-  } else {
-    createPasswordSingleType(characters.specialCharacters);
-    return password.join("");
+  if (haveLowercase) {
+    allCharacters = allCharacters.concat(characters.lowercase);
   }
+  if (haveUppercase) {
+    allCharacters = allCharacters.concat(characters.uppercase);
+  }
+  if (haveNumeric) {
+    allCharacters = allCharacters.concat(characters.numeric);
+  }
+  if (haveSpecialCharacters) {
+    allCharacters = allCharacters.concat(characters.specialCharacters);
+  }
+  createPassword();
+  return password.join("");
 }
 
 // Add event listener to generate button
