@@ -41,7 +41,7 @@ function generatePassword() {
   var pwLength = parseInt(prompt(
     "How many characters long do you want your password to be?"
   ));
-  if (pwLength < 8 || pwLength > 128 || isNaN(pwLength)) {
+  if (pwLength < 8 || pwLength > 128 || isNaN(pwLength)) { //This confirms whether or not the user inserted a numerical value that is at least 8 and no greater than 128. As well, I used parseInt to transfer the prompt answer to a number type, thus the isNaN conrirms if they actually gave a number and not a string of a word like "apple"
     return throwTryAgain("Please give a numerical value of at least 8 and no greater than 128."); //This and other returns like it will force an exit from the function, stoppping the generate passowrd process
   };
   var haveNumeric = confirm(
@@ -68,7 +68,7 @@ var allCharacters = []
   ) {
     return throwTryAgain("You must select at least one character type.")
   }
-  if (haveLowercase) {
+  if (haveLowercase) { //This if statement and the other ones below it check if the user selected certain character types and adds them to the array of characters for the password
     allCharacters = allCharacters.concat(characters.lowercase);
   }
   if (haveUppercase) {
@@ -81,7 +81,7 @@ var allCharacters = []
     allCharacters = allCharacters.concat(characters.specialCharacters);
   }
   createPassword();
-  return password.join("");
+  return password.join(""); //Sends the finalized password to the write password function. Using join("") allows for there to be no commas or spaces between the array items
 }
 
 // Add event listener to generate button
